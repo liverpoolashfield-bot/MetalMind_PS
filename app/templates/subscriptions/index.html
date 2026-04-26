@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Subscription Plans - MetalMind PS{% endblock %}
+{% block content %}
+<h2 class="mb-4">Choose Your Plan</h2>
+<div class="row">
+    {% for plan in plans %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 {% if current_sub and current_sub.plan_id == plan.id %}border-primary{% endif %}">
+            <div class="card-body">
+                {% if current_sub and current_sub.plan_id == plan.id %}
+                <span class="badge bg-primary position-absolute top-0 end-0 m-2">Current Plan</span>
+                {% endif %}
+                <h5 class="card-title">{{ plan.name }}</h5>
+                <p class="card-text text-muted">{{ plan.description }}</p>
+                <h3 class="mb-3">${{ plan.price }}<small class="text-muted">/{{ plan.billing_cycle }}</small></h3>
+                {% if plan.features %}
+                <ul class="list-unstyled mb-3">
+                    {% for feature in plan.features.split(',') %}
+                    <li><i class="bi bi-check text-success"></i> {{ feature.strip() }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {% if current_sub %}
+                    {% if current_sub.plan_id == plan.id %}
+                    <button class="btn btn-secondary w-100" disabled>Current Plan</button>
+                    {% else %}
+                    <form method="POST" action="{{ url_for('subscriptions.change_plan', plan_id=plan.id) }}">
+                        <button type="submit" class="btn btn-outline-primary w-100">Change Plan</button>
+                    </form>
+                    {% endif %}
+                {% else %}
+                <form method="POST" action="{{ url_for('subscriptions.subscribe', plan_id=plan.id) }}">
+                    <button type="submit" class="btn btn-primary w-100">Subscribe Now</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

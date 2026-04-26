@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Invoice - MetalMind PS{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-4">
+                    <div>
+                        <h4>INVOICE</h4>
+                        <p class="text-muted mb-0">#{{ payment.id }}</p>
+                    </div>
+                    <div class="text-end">
+                        <h5>MetalMind PS</h5>
+                        <small class="text-muted">subscription@metalmindps.com</small>
+                    </div>
+                </div>
+                <hr>
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <strong>Bill To:</strong><br>
+                        {{ current_user.name }}<br>
+                        {{ current_user.email }}
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <strong>Date:</strong> {{ payment.created_at.strftime('%Y-%m-%d') }}<br>
+                        <strong>Status:</strong> 
+                        {% if payment.status == 'completed' %}
+                        <span class="badge bg-success">Paid</span>
+                        {% else %}
+                        <span class="badge bg-warning">{{ payment.status }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <table class="table">
+                    <tr>
+                        <td>Subscription Payment</td>
+                        <td class="text-end">${{ "%.2f"|format(payment.amount) }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Total</strong></td>
+                        <td class="text-end"><strong>${{ "%.2f"|format(payment.amount) }}</strong></td>
+                    </tr>
+                </table>
+                <div class="text-center mt-4">
+                    <button onclick="window.print()" class="btn btn-primary">Print Invoice</button>
+                    <a href="{{ url_for('billing.index') }}" class="btn btn-secondary">Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

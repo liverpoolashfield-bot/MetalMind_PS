@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - MetalMind PS{% endblock %}
+{% block content %}
+<h2 class="mb-4">Welcome, {{ user.name }}!</h2>
+<div class="row">
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-person-badge"></i> Membership</h5>
+                <p class="card-text">
+                    {% if user.membership %}
+                        <strong>{{ user.membership.name }}</strong><br>
+                        <span class="text-muted">${{ user.membership.price }}/month</span>
+                    {% else %}
+                        <span class="text-muted">No active membership</span>
+                    {% endif %}
+                </p>
+                <a href="{{ url_for('members.membership') }}" class="btn btn-sm btn-outline-primary">View Plans</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-credit-card"></i> Billing</h5>
+                <p class="card-text text-muted">Manage payments and invoices</p>
+                <a href="{{ url_for('billing.index') }}" class="btn btn-sm btn-outline-primary">View Billing</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-gear"></i> Settings</h5>
+                <p class="card-text text-muted">Update your profile and preferences</p>
+                <a href="{{ url_for('members.profile') }}" class="btn btn-sm btn-outline-primary">Edit Profile</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

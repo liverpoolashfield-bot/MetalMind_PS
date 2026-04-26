@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Membership - MetalMind PS{% endblock %}
+{% block content %}
+<h2 class="mb-4">Membership Options</h2>
+<div class="row">
+    {% for membership in memberships %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ membership.name }}</h5>
+                <p class="card-text text-muted">{{ membership.description }}</p>
+                <h3 class="mb-3">${{ membership.price }}<small class="text-muted">/month</small></h3>
+                {% if membership.features %}
+                <ul class="list-unstyled mb-3">
+                    {% for feature in membership.features.split(',') %}
+                    <li><i class="bi bi-check text-success"></i> {{ feature.strip() }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                <a href="{{ url_for('subscriptions.index') }}" class="btn btn-outline-primary">Select Plan</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
